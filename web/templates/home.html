@@ -1,0 +1,14 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="number" name="weight" step="0.1" placeholder="وزن (کیلوگرم)" required>
+    <input type="number" name="height" step="0.01" placeholder="قد (متر)" >
+    <button type="submit">ثبت</button>
+</form>
+
+<h2>تاریخچه وزن و قد</h2>
+<ul>
+    {% for item in measurements %}
+        <li>{{ item.shamsi_date }} - وزن: {{ item.weight }} کیلو - قد: {{ item.height }} متر</li>
+    {% endfor %}
+</ul>
+
