@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from django.contrib.auth import authenticate , login
+from django.contrib.auth import authenticate , login , logout
 import hashlib
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -56,4 +56,10 @@ def home(request):
 
     for item in measurements:
         item.shamsi_date = jdatetime.datetime.fromgregorian(datetime=item.date).strftime('%Y/%m/%d %H:%M')
-    return render(request, "home.html", {"form": form, "measurements": measurements})
+    return render(request, "home.html", {"form": form, "measurements": measurements , "username": request.user.username})
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")

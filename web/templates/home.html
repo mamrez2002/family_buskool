@@ -1,3 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه اصلی</title>
+    <style>
+        /* استایل کلی صفحه */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* هدر ثابت */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .username {
+            margin-left: 20px;
+        }
+
+        .logout-btn {
+            margin-right: 20px;
+            background-color: red;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+
+        .container {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* فرم ورودی */
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #218838;
+        }
+
+        /* استایل کارت‌های نمایش داده‌ها */
+        .data-container {
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .data-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .data-card span {
+            display: block;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر ثابت -->
+    <div class="header">
+        <span class="username">👤 {{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="logout-btn">خروج</a>
+    </div>
+
+    <div class="container">
+
+        <!-- فرم ثبت اطلاعات -->
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                <input type="number" name="weight" step="0.1" placeholder="وزن (کیلوگرم)" required>
+                <input type="number" name="height" step="0.01" placeholder="قد (متر)">
+                <button type="submit">ثبت</button>
+            </form>
+        </div>
+
+        <!-- نمایش تاریخچه وزن و قد -->
+        <h2>تاریخچه وزن و قد</h2>
+        <div class="data-container">
+            {% for item in measurements %}
+                <div class="data-card">
+                    <span>{{ item.shamsi_date }}</span>
+                    وزن: {{ item.weight }} کیلو
+                    {% if item.height %}
+                        - قد: {{ item.height }} متر
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>هنوز داده‌ای ثبت نشده است.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!--
 <form method="post">
     {% csrf_token %}
     <input type="number" name="weight" step="0.1" placeholder="وزن (کیلوگرم)" required>
@@ -11,4 +175,4 @@
         <li>{{ item.shamsi_date }} - وزن: {{ item.weight }} کیلو - قد: {{ item.height }} متر</li>
     {% endfor %}
 </ul>
-
+ -->
